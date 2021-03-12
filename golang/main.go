@@ -3,24 +3,12 @@ package main
 import (
 	"fmt"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
-
-	"gopkg.in/yaml.v3"
 )
 
 func main() {
-	ymlContent, err := ioutil.ReadFile("../examples/chat-ws.yaml")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	actions := make(map[string]Action)
-
-	if err := yaml.Unmarshal([]byte(ymlContent), &actions); err != nil {
-		log.Fatal(err)
-	}
+	actions := getActionsFromFile("../examples/chat-ws.yaml")
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, err := template.ParseFiles("./ws-documentation.html")
