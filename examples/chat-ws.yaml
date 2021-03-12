@@ -1,26 +1,18 @@
-# ws://host_name:port/ws/room/<room_id>/?token=<user_access_token>
-
-# Тренер
-# - connect
-# - training_start
-# - training_close
-# - round_new
-# - message_new
-# - message_select
-# - student_kick
-# - room_info
-
-
-# Студент
-# - connect
-# - student_confirmation
-# - message_new
-# - room_info
+# Documentation styleguide convention
+# We have clear distinction between `action` and `event`
+# `action` is BL that can be triggered by client-side
+# `event` is response given by `action`
 
 connect:
   description: Connect to socket
+  actor:
+    type: object
+    properties:
+      is_system: true
+      description: Sent by system only
   response_to_group:
-    action: users_list
+    event: new_user_connected
+    message: string
     users:
       type: array
       items:
@@ -31,7 +23,7 @@ connect:
           nickname:
             type: string
   response_to_user:
-    action: room_info
+    event: user_connected
     messages:
       type: array
       items:
@@ -57,263 +49,25 @@ connect:
     current_round:
       type: integer
 
-# connect:
-#   description: Подключение к сокету
-#   response_to_room:
-#     type: users_list
-#     users: array
-#       items:
-#         type: object
-#         properties:
-#           user__id:
-#             type: integer
-#           nickname:
-#             type: string
-#   response_to_user:
-#     {
-#       type: 'room_info'
-#       users: array
-#         items:
-#           type: object
-#           properties:
-#             user__id:
-#               type: integer
-#             nickname:
-#               type: string
-#       messages:
-#         type: array
-#         description: Все сообщения комнаты
-#         items:
-#           type: object
-#           required: [id, username, is_locked]
-#           properties:
-#             id:
-#               type: integer
-#             username:
-#               type: string
-#             text:
-#                description: Если действующий раунд еще не завершен, то сообщения этого раунда не будут иметь текст
-#               type: string
-#             is_selected:
-#               type: boolean
-#             created_at:
-#               type: string
-#       max_round_time:
-#         type: integer
-#         description: Время раунда
-#       max_students_count:
-#         type: integer
-#         description: Максимальное кол-во человек
-#       max_rounds_count:
-#         type: integer
-#       current_round:
-#         type: integer
-#       training_start_status:
-#           type: string
-#           enum: ['not_started', 'started', 'started']
-#       is_allowed_to_send_message:
-#           type: boolean
-#     }
-
-# training_start:
-#   description: Запуск тренинга. В результате у всех студентов должна запуститься проверка готовности.
-#   data:
-#     {
-#       type: 'training_start'
-#     }
-#   response_to_room:
-#     {
-#       type: 'training_start'
-#     }
-
-# student_confirmation:
-#   description: Ответ на проверку готовности.
-#   data:
-#     {
-#       type: 'student_confirmation',
-#       is_ready: boolean
-#     }
-#   response_to_room:
-#     {
-#       type: 'student_confirmation',
-#       users: array
-#         items:
-#           type: object
-#           properties:
-#             user__id:
-#               type: integer
-#             nickname:
-#               type: string
-#     }
-
-# round_new:
-#   description: Начало нового раунда. С начала раунда запускается отсчет продолжительности.
-#   data:
-#     {
-#       type: 'round_new'
-#     }
-#   response_to_room:
-#     {
-#       type: 'round_new',
-#       current_round:
-#         type: integer,
-#       messages:
-#         type: object
-#         properties:
-#           id:
-#             type: integer
-#           username:
-#             type: string
-#           text:
-#             type: string
-#           is_selected:
-#             type: booleand
-#           role:
-#             type: string
-#           created_at:
-#             type: string
-#     }
-
-# message_new:
-#   description: Сообщение от студента / тренера.
-#   data:
-#     {
-#       type: 'message_new',
-#       text: 'text'
-#     }
-#   response_to_room:
-#     {
-#       type: 'message_new',
-#       message:
-#         type: object
-#         required: [id, username, is_locked]
-#         properties:
-#           id:
-#             type: integer
-#             description: id of message
-#           username:
-#             type: string
-#           is_locked:
-#             type: boolean
-#           text:
-#             description: Присутствует только от сообщений тренера
-#             type: string
-#           role:
-#             type: string
-#           created_at:
-#             type: string
-#     }
-
-# message_select:
-#   description: Выбор правильного ответа тренером.
-#   data:
-#     {
-#       type: 'message_select',
-#       message_id:
-#         type: integer
-#       is_selected:
-#         type: boolean
-#     }
-
-# student_kick:
-#   description: Исключение студента из тренинга
-#   data:
-#     {
-#       type: 'student_kick',
-#       student_id:
-#         type: integer
-#     }
-
-#   response_to_user:
-#     {
-#       type: 'student_kick',
-#       message: 'text'
-#     }
-
-#   response_to_room:
-#     {
-#       type: 'users_list',
-#       users: array
-#         items:
-#           type: object
-#           properties:
-#             user__id:
-#               type: integer
-#             nickname:
-#               type: string
-#     }
-
-# training_close:
-#   description: Завершение тренинга.
-#   data:
-#     {
-#       type: 'training_close'
-#     }
-#   response_to_room:
-#     {
-#       type: 'training_close',
-#       results:
-#         type: array
-#         items:
-#           type: object
-#           properties:
-#             place:
-#               type: integer
-#             nickname:
-#               type: string
-#             points:
-#               type: integer
-#               minimum: 0
-#     }
-
-# room_info:
-#     description: Информации по комнате
-#     data:
-#       {
-#         type: "room_info"
-#       }
-#     response_to_user:
-#       {
-#         type: 'room_info'
-#         users: array
-#           items:
-#             type: object
-#             properties:
-#               user__id:
-#                 type: integer
-#               nickname:
-#                 type: string
-#         messages:
-#           type: array
-#           description: Все сообщения комнаты
-#           items:
-#             type: object
-#             required: [id, username, is_locked]
-#            properties:
-#               id:
-#                 type: integer
-#               username:
-#                 type: string
-#               text:
-#                  description: Если действующий раунд еще не завершен, то сообщения этого раунда не будут иметь текст
-#                type: string
-#               is_selected:
-#                 type: boolean
-#               created_at:
-#                 type: string
-#         max_round_time:
-#           type: integer
-#           description: Время раунда
-#        max_students_count:
-#           type: integer
-#           description: Максимальное кол-во человек
-#         max_rounds_count:
-#           type: integer
-#         current_round:
-#           type: integer
-#         training_start_status:
-#           type: string
-#           enum: ['not_started', 'pending', 'started']
-#         is_allowed_to_send_message:
-#             type: boolean
-#       }
+new_message:
+  description: Send new message
+  actor:
+    type: object
+    properties:
+      is_system: false
+      description: Can be sent by user
+  data:
+    type: object
+    properties:
+      text: string
+  response_to_group:
+    event: new_message_sent
+    message:
+      type: object
+      properties:
+        id:
+          type: integer
+        text:
+          type: string
+        user_id:
+          type: string
