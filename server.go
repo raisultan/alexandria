@@ -11,6 +11,8 @@ import (
 	"time"
 )
 
+const yamlFilePath = "./examples/chat-ws.yaml"
+const templatePath = "./templates/documentation.html"
 const port = ":1337"
 
 func setup() (*http.Server, *log.Logger) {

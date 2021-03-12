@@ -5,9 +5,6 @@ import (
 	"time"
 )
 
-const yamlFilePath = "./examples/chat-ws.yaml"
-const templatePath = "./templates/documentation.html"
-
 func main() {
 	hs, logger := setup()
 
