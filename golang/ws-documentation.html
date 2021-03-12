@@ -7,24 +7,28 @@
     <title>Alexandria</title>
 </head>
 <body>
-    {{ range $actionName, $action := . }}
+    {{ range . }}
         <div class="action">
-            <h2 class="action__title">Action: {{ $actionName }}</h2>
-            <p class="action__description">Description: {{ $action.Description }}</p>
+            <h2 class="action__title">Action: {{ .Name }}</h2>
+            <p class="action__description">Description: {{ .Description }}</p>
             <div class="actor">
                 <h3>Actor</h3>
-                <p class="actor__type">Triggered by system: {{ $action.Actor.Properties.IsSystem }}</p>
-                <p class="actor__type">Description: {{ $action.Actor.Properties.Description }}</p>
+                <p class="actor__type">Triggered by system: {{ .Actor.IsSystem }}</p>
+                <p class="actor__type">Description: {{ .Actor.Description }}</p>
             </div>
 
             <h3 class="response__title">Response to group</h3>
             <div class="response response-to-user">
-                <p class="response__event-type">Event name: {{ $action.ResponseToUser.event }}</p>
+                <code class="response__schema">
+                    {{ .ResponseToUserSchema }}
+                </code>
             </div>
 
             <h3 class="response__title">Response to group</h3>
             <div class="response response-to-group">
-                <p class="response__event-type">Event name: {{ $action.ResponseToGroup.event }}</p>
+                <code class="response__schema">
+                    {{ .ResponseToGroupSchema }}
+                </code>
             </div>
         </div>
     {{ end }}
