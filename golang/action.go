@@ -34,6 +34,19 @@ type Action struct {
 	ResponseToUserSchema  string
 }
 
+func (a Action) print() {
+	fmt.Printf(
+		"Action: %s\nDescription: %s\nActor is system: %t\nActor description: %s\nData schema: %s\nResponse to user event schema: %s\nResponse to group event schema: %s\n\n",
+		a.Name,
+		a.Description,
+		a.Actor.IsSystem,
+		a.Actor.Description,
+		a.DataSchema,
+		a.ResponseToUserSchema,
+		a.ResponseToGroupSchema,
+	)
+}
+
 type Actor struct {
 	IsSystem    bool
 	Description string
@@ -44,9 +57,9 @@ func newAction(n string, r RawAction) Action {
 		IsSystem:    r.Actor.Properties.IsSystem,
 		Description: r.Actor.Properties.Description,
 	}
-	dataSchema := composeDataSchema(r)
-	responseToUserSchema := composeResponseToUserSchema(r)
-	responseToGroupSchema := composeResponseToGroupSchema(r)
+	dataSchema := composeSchema(r.Data)
+	responseToUserSchema := composeSchema(r.ResponseToUserRaw)
+	responseToGroupSchema := composeSchema(r.ResponseToGroupRaw)
 
 	action := Action{
 		Name:                  n,
@@ -91,33 +104,4 @@ func composeDataSchema(r RawAction) string {
 		log.Fatal(err)
 	}
 	return string(jsonBytes)
-}
-
-func composeResponseToUserSchema(r RawAction) string {
-	jsonBytes, err := json.Marshal(r.ResponseToUserRaw)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(jsonBytes)
-}
-
-func composeResponseToGroupSchema(r RawAction) string {
-	jsonBytes, err := json.Marshal(r.ResponseToGroupRaw)
-	if err != nil {
-		log.Fatal(err)
-	}
-	return string(jsonBytes)
-}
-
-func (a Action) print() {
-	fmt.Printf(
-		"Action: %s\nDescription: %s\nActor is system: %t\nActor description: %s\nData schema: %s\nResponse to user event schema: %s\nResponse to group event schema: %s\n\n",
-		a.Name,
-		a.Description,
-		a.Actor.IsSystem,
-		a.Actor.Description,
-		a.DataSchema,
-		a.ResponseToUserSchema,
-		a.ResponseToGroupSchema,
-	)
 }
