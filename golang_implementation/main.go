@@ -2,42 +2,51 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"log"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
-type Message struct {
-	Environments map[string]models `yaml:"Environments"`
+type Action struct {
+	Description string
+	Actor       struct {
+		ObjectType string `yaml:"type"`
+		Properties struct {
+			IsSystem    bool
+			Description string
+		}
+	}
+	Data            map[string]interface{}
+	ResponseToGroup map[string]interface{} `yaml:"response_to_group"`
+	ResponseToUser  map[string]interface{} `yaml:"response_to_user"`
 }
-type models map[string][]Model
-type Model struct {
-	AppType     string `yaml:"app-type"`
-	ServiceType string `yaml:"service-type"`
+
+func (a Action) print() {
+	fmt.Printf(
+		"Description: %s\nActor is system: %t\nActor description: %s\nResponse to user event name: %s\nResponse to group event name: %s\n\n",
+		a.Description,
+		a.Actor.Properties.IsSystem,
+		a.Actor.Properties.Description,
+		a.ResponseToUser["event"],
+		a.ResponseToGroup["event"],
+	)
 }
 
 func main() {
-	data := []byte(`
-Environments:
- sys1:
-    models:
-    - app-type: app1
-      service-type: fds
-    - app-type: app2
-      service-type: era
- sys2:
-    models:
-    - app-type: app1
-      service-type: fds
-    - app-type: app2
-      service-type: era
-`)
-	y := Message{}
-
-	err := yaml.Unmarshal([]byte(data), &y)
+	ymlContent, err := ioutil.ReadFile("../examples/chat-ws.yaml")
 	if err != nil {
-		log.Fatalf("error: %v", err)
+		log.Fatal(err)
 	}
-	fmt.Printf("%+v\n", y)
 
+	actions := make(map[string]Action)
+
+	if err := yaml.Unmarshal([]byte(ymlContent), &actions); err != nil {
+		log.Fatal(err)
+	}
+
+	for key, value := range actions {
+		fmt.Println("Action: ", key)
+		value.print()
+	}
 }
