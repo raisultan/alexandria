@@ -4,40 +4,45 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     <title>Alexandria UI</title>
 </head>
 <body>
-    {{ range . }}
-        <div class="action">
-            <h2 class="action__title">Action: {{ .Name }}</h2>
-            <p class="action__description">Description: {{ .Description }}</p>
-            <div class="actor">
-                <h3>Actor</h3>
-                <p class="actor__type">Triggered by system: {{ .Actor.IsSystem }}</p>
-                <p class="actor__type">Description: {{ .Actor.Description }}</p>
-            </div>
+    <div class="container">
+        {{ range . }}
+            <div class="card action">
+                <h2 class="action__title">Action: {{ .Name }}</h2>
+                <p class="action__description">Description: {{ .Description }}</p>
+                <div class="actor">
+                    <h3>Actor</h3>
+                    <p class="actor__type">Triggered by system: {{ .Actor.IsSystem }}</p>
+                    <p class="actor__type">Description: {{ .Actor.Description }}</p>
+                </div>
 
-            <h3 class="data__title">Data</h3>
-            <div class="data">
-                <code class="data__schema">
-                    {{ .DataSchema }}
-                </code>
-            </div>
+                <h3 class="data__title">Data</h3>
+                <div class="data">
+                    <code class="data__schema">
+                        {{ .DataSchema }}
+                    </code>
+                </div>
 
-            <h3 class="response__title">Response to user</h3>
-            <div class="response response-to-user">
-                <code class="response__schema">
-                    {{ .ResponseToUserSchema }}
-                </code>
-            </div>
+                <h3 class="response__title">Response to user</h3>
+                <div class="response response-to-user">
+                    <code class="response__schema">
+                        {{ .ResponseToUserSchema }}
+                    </code>
+                </div>
 
-            <h3 class="response__title">Response to group</h3>
-            <div class="response response-to-group">
-                <code class="response__schema">
-                    {{ .ResponseToGroupSchema }}
-                </code>
+                <h3 class="response__title">Response to group</h3>
+                <div class="response response-to-group">
+                    <code class="response__schema">
+                        {{ .ResponseToGroupSchema }}
+                    </code>
+                </div>
             </div>
-        </div>
-    {{ end }}
+        {{ end }}
+    </div>
 </body>
 </html>
