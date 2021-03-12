@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alexandria</title>
+</head>
+<body>
+    {{ range $actionName, action := .Actions }}
+        <div class="action">
+            <h2 class="action__title">Action: {{ $actionName }}</h2>
+            <p class="action__description">Description: {{ $action.Description }}</p>
+            <div class="actor">
+                <h3>Actor</h3>
+                <p class="actor__type">Triggered by system: {{ $action.Actor.Properties.IsSystem }}</p>
+                <p class="actor__type">Description: {{ $action.Actor.Properties.Description }}</p>
+            </div>
+
+            <h3 class="response__title">Response to group</h3>
+            <div class="response response-to-user">
+                <p class="response__event-type">Event name: {{ $action.ResponseToUser["event"] }}</p>
+            </div>
+
+            <h3 class="response__title">Response to group</h3>
+            <div class="response response-to-group">
+                <p class="response__event-type">Event name: {{ $action.ResponseToGroup["event"] }}</p>
+            </div>
+        </div>
+    {{ end }}
+</body>
+</html>
