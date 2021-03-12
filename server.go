@@ -11,12 +11,15 @@ import (
 	"time"
 )
 
-const yamlFilePath = "./examples/chat-ws.yaml"
 const templatePath = "./templates/documentation.html"
-const port = ":1337"
+const defaultPort = "8080"
 
 func setup() (*http.Server, *log.Logger) {
-	hs := &http.Server{Addr: port, Handler: &server{}}
+	addr := ":" + os.Getenv("ALEXANDRIA_PORT")
+	if addr == ":" {
+		addr = ":" + defaultPort
+	}
+	hs := &http.Server{Addr: addr, Handler: &server{}}
 
 	return hs, log.New(os.Stdout, "", 0)
 }
@@ -43,11 +46,16 @@ func graceful(hs *http.Server, logger *log.Logger, timeout time.Duration) {
 type server struct{}
 
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	actions := getActionsFromFile(yamlFilePath)
+	yamlFilePath := os.Getenv("ALEXANDRIA_YAML")
+	if yamlFilePath == "" {
+		yamlFilePath = "./examples/chat-ws.yaml"
+		// log.Fatal("ALEXANDRIA_YAML environment var is not provided")
+	}
 
+	actions := getActionsFromFile(yamlFilePath)
 	tmpl, err := template.ParseFiles(templatePath)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error: %v\n", err)
 	}
 	tmpl.Execute(w, actions)
 }
