@@ -7,7 +7,7 @@
     <title>Alexandria</title>
 </head>
 <body>
-    {{ range $actionName, action := .Actions }}
+    {{ range $actionName, $action := . }}
         <div class="action">
             <h2 class="action__title">Action: {{ $actionName }}</h2>
             <p class="action__description">Description: {{ $action.Description }}</p>
@@ -19,12 +19,12 @@
 
             <h3 class="response__title">Response to group</h3>
             <div class="response response-to-user">
-                <p class="response__event-type">Event name: {{ $action.ResponseToUser["event"] }}</p>
+                <p class="response__event-type">Event name: {{ $action.ResponseToUser.event }}</p>
             </div>
 
             <h3 class="response__title">Response to group</h3>
             <div class="response response-to-group">
-                <p class="response__event-type">Event name: {{ $action.ResponseToGroup["event"] }}</p>
+                <p class="response__event-type">Event name: {{ $action.ResponseToGroup.event }}</p>
             </div>
         </div>
     {{ end }}
