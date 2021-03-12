@@ -17,6 +17,13 @@
                 <p class="actor__type">Description: {{ .Actor.Description }}</p>
             </div>
 
+            <h3 class="data__title">Data</h3>
+            <div class="data">
+                <code class="data__schema">
+                    {{ .DataSchema }}
+                </code>
+            </div>
+
             <h3 class="response__title">Response to user</h3>
             <div class="response response-to-user">
                 <code class="response__schema">
