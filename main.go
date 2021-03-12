@@ -1,26 +1,23 @@
 package main
 
 import (
-	"fmt"
-	"html/template"
-	"log"
 	"net/http"
+	"time"
 )
 
 const yamlFilePath = "./examples/chat-ws.yaml"
 const templatePath = "./templates/documentation.html"
 
 func main() {
-	actions := getActionsFromFile(yamlFilePath)
+	hs, logger := setup()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl, err := template.ParseFiles(templatePath)
-		if err != nil {
-			log.Fatal(err)
+	go func() {
+		logger.Printf("Listening on http://0.0.0.0%s\n", hs.Addr)
+
+		if err := hs.ListenAndServe(); err != http.ErrServerClosed {
+			logger.Fatal(err)
 		}
-		tmpl.Execute(w, actions)
-	})
+	}()
 
-	fmt.Println("Server is listening...")
-	http.ListenAndServe(":8181", nil)
+	graceful(hs, logger, 5*time.Second)
 }
