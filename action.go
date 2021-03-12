@@ -98,8 +98,8 @@ func getRawActionsFromFile(path string) map[string]RawAction {
 	return rawActions
 }
 
-func composeDataSchema(r RawAction) string {
-	jsonBytes, err := json.Marshal(r.Data)
+func composeSchema(s map[string]interface{}) string {
+	jsonBytes, err := json.Marshal(s)
 	if err != nil {
 		log.Fatal(err)
 	}

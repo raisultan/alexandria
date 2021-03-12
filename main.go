@@ -7,11 +7,14 @@ import (
 	"net/http"
 )
 
+const yamlFilePath = "./examples/chat-ws.yaml"
+const templatePath = "./templates/documentation.html"
+
 func main() {
-	actions := getActionsFromFile("../examples/chat-ws.yaml")
+	actions := getActionsFromFile(yamlFilePath)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		tmpl, err := template.ParseFiles("./ws-documentation.html")
+		tmpl, err := template.ParseFiles(templatePath)
 		if err != nil {
 			log.Fatal(err)
 		}
