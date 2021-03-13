@@ -103,3 +103,4 @@ Any feedback or contribution to the project is eagerly welcomed. Just create an 
 ### Todo:
 - [ ] add syntax highlighting
 - [ ] documentation file structure and content validation
+- [ ] response schema based example generation
