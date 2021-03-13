@@ -72,7 +72,7 @@ actions:
             type: string
 ```
 
-A full working example with the use of Alexandria UI can be found [here](https://github.com/raisultan/alexandria/example).
+A full working example with the use of Alexandria UI can be found [here](https://github.com/raisultan/alexandria/tree/main/example).
 
 ## Alexandria UI
 The simplest swagger-like UI for visualization of documentation written according to IDL described above. UI is ready to use and its image is hosted on [Docker Hub](https://hub.docker.com/r/raisultan/alexandria).
