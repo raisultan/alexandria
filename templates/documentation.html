@@ -44,7 +44,14 @@
                     <div class="card m-2 border-success actor">
                         <div class="card-header">Actor</div>
                         <div class="card-body">
-                            <div class="actor__type">Triggered by system: {{ .Actor.IsSystem }}</div>
+                            <div class="actor__type">
+                                Triggered by:
+                                {{ if .Actor.IsSystem }}
+                                <span>system</span>
+                                {{ else }}
+                                <span>client</span>
+                                {{ end }}
+                            </div>
                             <div class="actor__description">{{ .Actor.Description }}</div>
                         </div>
                     </div>
