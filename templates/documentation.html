@@ -22,6 +22,9 @@
         body {
             font-family: 'Fira Code', monospace !important;
         }
+        .action__title {
+            text-align: left;
+        }
     </style>
 
     <title>Alexandria UI</title>
@@ -31,18 +34,18 @@
         <div id="accordion">
             {{ range . }}
                 <div class="p-2 m-2 card action">
-                    <div id="header-{{ .Name }}" class="card-header action__title">
-                        <button class="btn" data-toggle="collapse" data-target="#collapse-{{ .Name }}" aria-expanded="true" aria-controls="collapse-{{ .Name }}">
+                    <button class="btn " data-toggle="collapse" data-target="#collapse-{{ .Name }}" aria-expanded="true" aria-controls="collapse-{{ .Name }}">
+                        <div id="header-{{ .Name }}" class="card-header action__title">
                             {{ if .Actor.IsSystem }}
                             <span class="badge bg-info text-dark">system</span>
                             {{ else }}
                             <span class="badge bg-success">client</span>
                             {{ end }}
                             {{ .Name }}
-                        </button>
-                    </div>
+                        </div>
+                    </button>
 
-                    <div id="collapse-{{ .Name }}" class="collapse show" aria-labelledby="header-{{ .Name }}" data-parent="#accordion">
+                    <div id="collapse-{{ .Name }}" class="collapse show" aria-labelledby="header-{{ .Name }}">
                         <div class="card-body">
                             <p class="action__description">{{ .Description }}</p>
 
