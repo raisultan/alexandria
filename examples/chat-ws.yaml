@@ -1,7 +1,11 @@
-# Documentation styleguide convention
-# We have clear distinction between `action` and `event`
-# `action` is BL that can be triggered by client-side
-# `event` is response given by `action`
+info:
+  title: WS Documentation
+  description: WS Documentation description
+  version: '0.1'
+
+server:
+    url: ws://example.example:1337
+    description: Stage server backend
 
 connect:
   description: Connect to socket
