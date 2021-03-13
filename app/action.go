@@ -96,8 +96,6 @@ func getDocumentationFromFile(path string) Documentation {
 	}
 	actions := []Action{}
 
-	fmt.Println(rd.Actions)
-
 	for name, action := range rd.Actions {
 		actions = append(actions, newAction(name, action))
 	}

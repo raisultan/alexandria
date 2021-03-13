@@ -48,7 +48,7 @@ type server struct{}
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	yamlFilePath := os.Getenv("ALEXANDRIA_YAML")
 	if yamlFilePath == "" {
-		yamlFilePath = "./examples/chat-ws.yaml"
+		yamlFilePath = "../examples/chat-ws.yaml"
 		// log.Fatal("ALEXANDRIA_YAML environment var is not provided")
 	}
 
