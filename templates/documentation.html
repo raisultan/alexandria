@@ -28,10 +28,11 @@
 </head>
 <body>
     <div class="container">
-        <div class="accordion">
+        <div id="accordion">
             {{ range . }}
                 <div class="p-2 m-2 card action">
-                    <button class="btn" data-toggle="collapse" data-target="#collapse-{{ .Name }}" aria-expanded="true" aria-controls="collapse-{{ .Name }}">
+                    <div id="header-{{ .Name }}" class="card-header action__title">
+                        <button class="btn" data-toggle="collapse" data-target="#collapse-{{ .Name }}" aria-expanded="true" aria-controls="collapse-{{ .Name }}">
                             {{ if .Actor.IsSystem }}
                             <span class="badge bg-info text-dark">system</span>
                             {{ else }}
