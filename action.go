@@ -47,21 +47,6 @@ type Documentation struct {
 	Actions []Action
 }
 
-func (d Documentation) print() {
-	fmt.Printf(
-		"Info title: %s\nInfo description: %s\nInfo version: %s\nServer url: %s\nServer description: %s\n\n",
-		d.Info.Title,
-		d.Info.Description,
-		d.Info.Version,
-		d.Server.Url,
-		d.Server.Description,
-	)
-
-	for _, action := range d.Actions {
-		action.print()
-	}
-}
-
 type Action struct {
 	Name        string
 	Description string
@@ -70,19 +55,6 @@ type Action struct {
 
 	ResponseToGroupSchema string
 	ResponseToUserSchema  string
-}
-
-func (a Action) print() {
-	fmt.Printf(
-		"Action: %s\nDescription: %s\nActor is system: %t\nActor description: %s\nData schema: %s\nResponse to user event schema: %s\nResponse to group event schema: %s\n\n",
-		a.Name,
-		a.Description,
-		a.Actor.IsSystem,
-		a.Actor.Description,
-		a.DataSchema,
-		a.ResponseToUserSchema,
-		a.ResponseToGroupSchema,
-	)
 }
 
 type Actor struct {
@@ -157,4 +129,34 @@ func composeSchema(s map[string]interface{}) string {
 		log.Fatal(err)
 	}
 	return string(jsonBytes)
+}
+
+// debug related
+func (d Documentation) print() {
+	fmt.Printf(
+		"Info title: %s\nInfo description: %s\nInfo version: %s\nServer url: %s\nServer description: %s\n\n",
+		d.Info.Title,
+		d.Info.Description,
+		d.Info.Version,
+		d.Server.Url,
+		d.Server.Description,
+	)
+
+	for _, action := range d.Actions {
+		action.print()
+	}
+}
+
+// debug related
+func (a Action) print() {
+	fmt.Printf(
+		"Action: %s\nDescription: %s\nActor is system: %t\nActor description: %s\nData schema: %s\nResponse to user event schema: %s\nResponse to group event schema: %s\n\n",
+		a.Name,
+		a.Description,
+		a.Actor.IsSystem,
+		a.Actor.Description,
+		a.DataSchema,
+		a.ResponseToUserSchema,
+		a.ResponseToGroupSchema,
+	)
 }
