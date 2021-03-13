@@ -2,8 +2,6 @@ FROM golang:1.14.7-alpine
 
 LABEL maintainer="raisultan"
 
-ENV ALEXANDRIA_YAML "/app/examples/ws.yaml"
-
 WORKDIR /app
 
 COPY ./app/go.mod /app
