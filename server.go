@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
+	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
-	"text/template"
 	"time"
 )
 
@@ -52,10 +52,10 @@ func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		// log.Fatal("ALEXANDRIA_YAML environment var is not provided")
 	}
 
-	actions := getActionsFromFile(yamlFilePath)
+	documentation := getDocumentationFromFile(yamlFilePath)
 	tmpl, err := template.ParseFiles(templatePath)
 	if err != nil {
 		log.Fatalf("Error: %v\n", err)
 	}
-	tmpl.Execute(w, actions)
+	tmpl.Execute(w, documentation)
 }
