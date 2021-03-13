@@ -9,7 +9,7 @@ func main() {
 	hs, logger := setup()
 
 	go func() {
-		logger.Printf("Listening on http://0.0.0.0%s\n", hs.Addr)
+		logger.Println("Up and running")
 
 		if err := hs.ListenAndServe(); err != http.ErrServerClosed {
 			logger.Fatal(err)
