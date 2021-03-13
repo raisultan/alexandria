@@ -1,9 +1,8 @@
 FROM golang:1.14.7-alpine
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
+LABEL maintainer="raisultan"
 
-LABEL maintainer="raisultan karimov <ki.xbozz@gmail.com>"
+ENV ALEXANDRIA_YAML "/app/examples/ws.yaml"
 
 WORKDIR /app
 
@@ -15,5 +14,7 @@ RUN go mod download
 COPY ./app /app
 
 RUN go build -o main .
+
+EXPOSE 8080
 
 CMD ["./main"]
