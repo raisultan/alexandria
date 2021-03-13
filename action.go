@@ -14,7 +14,7 @@ type RawAction struct {
 	Actor       struct {
 		ObjectType string `yaml:"type"`
 		Properties struct {
-			IsSystem    bool
+			IsSystem    bool `yaml:"is_system"`
 			Description string
 		}
 	}
