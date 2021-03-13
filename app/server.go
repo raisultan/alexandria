@@ -12,15 +12,10 @@ import (
 )
 
 const templatePath = "./templates/documentation.html"
-const defaultPort = "8080"
+const defaultPort = ":8080"
 
 func setup() (*http.Server, *log.Logger) {
-	addr := ":" + os.Getenv("ALEXANDRIA_PORT")
-	if addr == ":" {
-		addr = ":" + defaultPort
-	}
-	hs := &http.Server{Addr: addr, Handler: &server{}}
-
+	hs := &http.Server{Addr: defaultPort, Handler: &server{}}
 	return hs, log.New(os.Stdout, "", 0)
 }
 
@@ -48,8 +43,7 @@ type server struct{}
 func (s *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	yamlFilePath := os.Getenv("ALEXANDRIA_YAML")
 	if yamlFilePath == "" {
-		yamlFilePath = "../examples/chat-ws.yaml"
-		// log.Fatal("ALEXANDRIA_YAML environment var is not provided")
+		log.Fatal("ALEXANDRIA_YAML environment var is not provided")
 	}
 
 	documentation := getDocumentationFromFile(yamlFilePath)
