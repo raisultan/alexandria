@@ -13,6 +13,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&display=swap" rel="stylesheet">
 
+    <!-- highlight-js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
     <style>
         body {
             font-family: 'Fira Code', monospace !important;
@@ -29,31 +34,45 @@
                 <div class="card-body">
                     <p class="action__description">Description: {{ .Description }}</p>
 
-                    <div class="actor">
-                        <h3>Actor</h3>
-                        <div class="actor__type">Triggered by system: {{ .Actor.IsSystem }}</div>
-                        <div class="actor__description">{{ .Actor.Description }}</div>
+                    <div class="card border-success actor">
+                        <div class="card-header">Actor</div>
+                        <div class="card-body">
+                            <div class="actor__type">Triggered by system: {{ .Actor.IsSystem }}</div>
+                            <div class="actor__description">{{ .Actor.Description }}</div>
+                        </div>
                     </div>
 
-                    <div class="data">
-                        <h3>Data</h3>
-                        <code class="data__schema">
-                            {{ .DataSchema }}
-                        </code>
+                    <div class="card border-success data">
+                        <div class="card-header">Data</div>
+                        <div class="card-body">
+                            <pre>
+                                <code class="language-json data__schema">
+                                    {{ .DataSchema }}
+                                </code>
+                            </pre>
+                        </div>
                     </div>
 
-                    <div class="response response-to-user">
-                        <h3>Response to user</h3>
-                        <code class="response__schema">
-                            {{ .ResponseToUserSchema }}
-                        </code>
+                    <div class="card border-success response response-to-user">
+                        <div class="card-header">Response to user</div>
+                        <div class="card-body">
+                            <pre>
+                                <code class="language-json response__schema">
+                                    {{ .ResponseToUserSchema }}
+                                </code>
+                            </pre>
+                        </div>
                     </div>
 
-                    <div class="response response-to-group">
-                        <h3>Response to group</h3>
-                        <code class="response__schema">
-                            {{ .ResponseToGroupSchema }}
-                        </code>
+                    <div class="card border-success response response-to-group">
+                        <div class="card-header">Response to group</div>
+                        <div class="card-body">
+                            <pre>
+                                <code class="language-json response__schema">
+                                    {{ .ResponseToGroupSchema }}
+                                </code>
+                            </pre>
+                        </div>
                     </div>
                 </div>
             </div>
