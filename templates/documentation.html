@@ -25,49 +25,66 @@
             text-align: left;
             font-weight: 500;
         }
+        .info, .server {
+            color: white;
+        }
     </style>
 
     <title>Alexandria UI</title>
 </head>
 <body class="bg-dark">
     <div class="container">
+        <div class="mt-5 info">
+            <h1>
+                {{ .Info.Title }} <span class="badge bg-success">{{ .Info.Version }}</span>
+            </h1>
+            <p>{{ .Info.Description }}</p>
+        </div>
+
+        <div class="mt-5 mb-5 server">
+            <strong>
+                URL: {{ .Server.Url }}
+            </strong>
+            <p>{{ .Server.Description }}</p>
+        </div>
+
         <div id="accordion">
-            {{ range . }}
+            {{ range $action := .Actions }}
                 <div class="p-2 m-2 card action">
-                    <button class="btn " data-toggle="collapse" data-target="#collapse-{{ .Name }}" aria-expanded="true" aria-controls="collapse-{{ .Name }}">
-                        <div id="header-{{ .Name }}" class="card-header action__title">
-                            {{ if .Actor.IsSystem }}
+                    <button class="btn " data-toggle="collapse" data-target="#collapse-{{ $action.Name }}" aria-expanded="true" aria-controls="collapse-{{ $action.Name }}">
+                        <div id="header-{{ $action.Name }}" class="card-header action__title">
+                            {{ if $action.Actor.IsSystem }}
                             <span class="badge bg-info text-dark">system</span>
                             {{ else }}
                             <span class="badge bg-success">client</span>
                             {{ end }}
-                            {{ .Name }}
+                            {{ $action.Name }}
                         </div>
                     </button>
 
-                    <div id="collapse-{{ .Name }}" class="collapse" aria-labelledby="header-{{ .Name }}">
+                    <div id="collapse-{{ $action.Name }}" class="collapse" aria-labelledby="header-{{ $action.Name }}">
                         <div class="card-body">
-                            <p class="action__description">{{ .Description }}</p>
+                            <p class="action__description">{{ $action.Description }}</p>
 
                             <div class="card m-2 border-success actor">
                                 <div class="card-header">Actor</div>
                                 <div class="card-body">
                                     <div class="actor__type">
                                         Triggered by:
-                                        {{ if .Actor.IsSystem }}
+                                        {{ if $action.Actor.IsSystem }}
                                         <span>system</span>
                                         {{ else }}
                                         <span>client</span>
                                         {{ end }}
                                     </div>
-                                    <div class="actor__description">{{ .Actor.Description }}</div>
+                                    <div class="actor__description">{{ $action.Actor.Description }}</div>
                                 </div>
                             </div>
 
                             <div class="card m-2 border-success data">
                                 <div class="card-header">Data</div>
                                 <div class="card-body">
-                                    <pre><code class="language-yaml schema">{{ .DataSchema }}</code></pre>
+                                    <pre><code class="language-yaml schema">{{ $action.DataSchema }}</code></pre>
                                 </div>
                             </div>
 
@@ -75,10 +92,10 @@
                                 <div class="card-header">Responses</div>
                                 <div class="card-body">
                                     <div class="card-title">to_user</div>
-                                    <pre><code class="language-yaml schema">{{ .ResponseToUserSchema }}</code></pre>
+                                    <pre><code class="language-yaml schema">{{ $action.ResponseToUserSchema }}</code></pre>
 
                                     <div class="card-title">to_group</div>
-                                    <pre><code class="language-yaml schema">{{ .ResponseToGroupSchema }}</code></pre>
+                                    <pre><code class="language-yaml schema">{{ $action.ResponseToGroupSchema }}</code></pre>
                                 </div>
                             </div>
                         </div>
