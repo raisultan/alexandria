@@ -29,12 +29,19 @@
 <body>
     <div class="container">
         {{ range . }}
-            <div class="card action">
-                <div class="card-header text-center action__title">{{ .Name }}</div>
+            <div class="p-2 m-2 card action">
+                <div class="card-header action__title">
+                    {{ if .Actor.IsSystem }}
+                    <span class="badge bg-info text-dark">system</span>
+                    {{ else }}
+                    <span class="badge bg-success">client</span>
+                    {{ end }}
+                    {{ .Name }}
+                </div>
                 <div class="card-body">
-                    <p class="action__description">Description: {{ .Description }}</p>
+                    <p class="action__description">{{ .Description }}</p>
 
-                    <div class="card border-success actor">
+                    <div class="card m-2 border-success actor">
                         <div class="card-header">Actor</div>
                         <div class="card-body">
                             <div class="actor__type">Triggered by system: {{ .Actor.IsSystem }}</div>
@@ -42,35 +49,26 @@
                         </div>
                     </div>
 
-                    <div class="card border-success data">
+                    <div class="card m-2 border-success data">
                         <div class="card-header">Data</div>
                         <div class="card-body">
                             <pre>
-                                <code class="language-json data__schema">
-                                    {{ .DataSchema }}
-                                </code>
+                                <code class="language-json data__schema">{{ .DataSchema }}</code>
                             </pre>
                         </div>
                     </div>
 
-                    <div class="card border-success response response-to-user">
-                        <div class="card-header">Response to user</div>
+                    <div class="card m-2 border-success response response-to-user">
+                        <div class="card-header">Responses</div>
                         <div class="card-body">
+                            <div class="card-title">to_user</div>
                             <pre>
-                                <code class="language-json response__schema">
-                                    {{ .ResponseToUserSchema }}
-                                </code>
+                                <code class="language-json response__schema">{{ .ResponseToUserSchema }}</code>
                             </pre>
-                        </div>
-                    </div>
 
-                    <div class="card border-success response response-to-group">
-                        <div class="card-header">Response to group</div>
-                        <div class="card-body">
+                            <div class="card-title">to_group</div>
                             <pre>
-                                <code class="language-json response__schema">
-                                    {{ .ResponseToGroupSchema }}
-                                </code>
+                                <code class="language-json response__schema">{{ .ResponseToGroupSchema }}</code>
                             </pre>
                         </div>
                     </div>
