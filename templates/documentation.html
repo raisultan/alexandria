@@ -14,9 +14,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;700&display=swap" rel="stylesheet">
 
     <!-- highlight-js -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
+    <script>hljs.initHighlightingOnLoad();</script> -->
 
     <style>
         body {
@@ -68,7 +68,7 @@
                                 <div class="card-header">Data</div>
                                 <div class="card-body">
                                     <pre>
-                                        <code class="language-json data__schema">{{ .DataSchema }}</code>
+                                        <code class="language-json schema">{{ .DataSchema }}</code>
                                     </pre>
                                 </div>
                             </div>
@@ -78,12 +78,12 @@
                                 <div class="card-body">
                                     <div class="card-title">to_user</div>
                                     <pre>
-                                        <code class="language-json response__schema">{{ .ResponseToUserSchema }}</code>
+                                        <code class="language-json schema">{{ .ResponseToUserSchema }}</code>
                                     </pre>
 
                                     <div class="card-title">to_group</div>
                                     <pre>
-                                        <code class="language-json response__schema">{{ .ResponseToGroupSchema }}</code>
+                                        <code class="language-json schema">{{ .ResponseToGroupSchema }}</code>
                                     </pre>
                                 </div>
                             </div>
@@ -98,5 +98,26 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- js-yaml -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.0.0/js-yaml.min.js" integrity="sha512-dYHhQSvQ3Lepc2xDidh80aADfrIAaVTs52W5JSFlE47SJgcwD+YY+iY0XmXD9UX3k0YOPvoyugS/ieGjpu5M/Q==" crossorigin="anonymous"></script>
+
+    <!-- convert map representations of schemas to yaml -->
+    <script type="text/javascript">
+        function jsonStringToYaml(jsonString) {
+            var jsonObj = JSON.parse(jsonString);
+            return jsyaml.dump(jsonObj);
+        }
+
+        var schemas = document.querySelectorAll(".schema")
+        schemas.forEach(schema => {
+            schema.innerText = jsonStringToYaml(schema.innerText)
+        })
+    </script>
+
+    <!-- highlight-js -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
 </body>
 </html>
