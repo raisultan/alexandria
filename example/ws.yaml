@@ -1,23 +1,22 @@
 info:
-  title: WS Documentation
-  description: WS Documentation description
+  title: SampleChat
+  description: SampleChat websocket actions documentation.
   version: '0.1'
 
 server:
-    url: ws://example.example:1337
-    description: Stage server backend
+    url: ws://example:1337/ws/chat/<chat_id>/?token=<user_access_token>
+    description: <chat_id> - Chat ID of current user. <user_access_token> - JWT access token of current user.
 
 actions:
   connect:
-    description: Connect to socket
+    description: Successful connection to chat.
     actor:
       type: object
       properties:
         is_system: true
-        description: Sent by system only
+        description: Connect will be triggered only on connection request and handled by backend.
     response_to_group:
-      event: new_user_connected
-      message: string
+      event: users_list_retrieved
       users:
         type: array
         items:
@@ -28,9 +27,19 @@ actions:
             nickname:
               type: string
     response_to_user:
-      event: user_connected
+      event: chat_info_retrieved
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            user_id:
+              type: integer
+            nickname:
+              type: string
       messages:
         type: array
+        description: All messages.
         items:
           type: object
           properties:
@@ -40,39 +49,64 @@ actions:
               type: string
             text:
               type: string
-            is_selected:
-              type: string
             created_at:
               type: string
-              format: datetime
-      max_round_time:
-        type: integer
-      max_rounds_count:
-        type: integer
-      max_students_count:
-        type: integer
-      current_round:
-        type: integer
 
-  new_message:
-    description: Send new message
+  message_new:
+    description: Send new message.
     actor:
       type: object
       properties:
         is_system: false
-        description: Can be sent by user
+        description: Sent by any user.
     data:
       type: object
       properties:
         text: string
     response_to_group:
-      event: new_message_sent
-      message:
-        type: object
-        properties:
-          id:
-            type: integer
-          text:
-            type: string
-          user_id:
-            type: string
+        event: new_message
+        message:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: Message ID.
+            username:
+              type: string
+            text:
+              type: string
+            created_at:
+              type: string
+
+  chat_info:
+    description: Get chat state info.
+    actor:
+      type: object
+      properties:
+        is_system: false
+        description: Sent by any user.
+    response_to_user:
+      event: chat_info_received
+      users:
+        type: array
+        items:
+          type: object
+          properties:
+            user_id:
+              type: integer
+            nickname:
+              type: string
+      messages:
+        type: array
+        description: All messages of chat.
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            username:
+              type: string
+            text:
+              type: string
+            created_at:
+              type: string
